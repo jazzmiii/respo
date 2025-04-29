@@ -7,7 +7,20 @@ from flask import Flask, request, jsonify
 from sklearn.model_selection import train_test_split
 import torch
 import os
+import requests
 
+def download_from_drive(file_id, destination):
+    if not os.path.exists(destination):
+        print("Downloading model from Google Drive...")
+        url = f"https://drive.google.com/uc?export=download&id=1YXqPBVc3gHQjpXd1RrnBhHaxecv-gUjI"
+        response = requests.get(url)
+        if response.status_code == 200:
+            with open(destination, 'wb') as f:
+                f.write(response.content)
+            print("Download complete.")
+        else:
+            raise Exception("Failed to download model from Google Drive.")
+            
 PORT=7001
 url = f"https://drive.google.com/uc?id=1RCZShB5ohy1HdU-mogcP16TbeVv9txpY"
 df = pd.read_csv(url)
@@ -105,6 +118,8 @@ def load_model(model, path="gpt_model.pth"):
         print("Model loaded successfully.")
     else:
         print("Model file not found!")
+# Download model from Google Drive if not already present
+download_from_drive("1YXqPBVc3gHQjpXd1RrnBhHaxecv-gUjI", "gpt_model.pth")
 
 load_model(model)
 
