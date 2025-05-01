@@ -113,7 +113,7 @@ criterion = nn.CrossEntropyLoss(label_smoothing=0.1)
 def load_model(model, path="gpt_model.pth"):
     if os.path.exists(path):
         # Explicitly setting weights_only=False to load the entire model
-        model.load_state_dict(torch.load(path, map_location=device, weights_only=False))
+        model.load_state_dict(torch.load("gpt_model.pth", map_location=device))
         model.to(device)
         model.eval()
         print("Model loaded successfully.")
