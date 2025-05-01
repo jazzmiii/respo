@@ -112,12 +112,14 @@ criterion = nn.CrossEntropyLoss(label_smoothing=0.1)
 # Load the model
 def load_model(model, path="gpt_model.pth"):
     if os.path.exists(path):
-        model.load_state_dict(torch.load(path, map_location=device))
+        # Explicitly setting weights_only=False to load the entire model
+        model.load_state_dict(torch.load(path, map_location=device, weights_only=False))
         model.to(device)
         model.eval()
         print("Model loaded successfully.")
     else:
         print("Model file not found!")
+
 # Download model from Google Drive if not already present
 download_from_drive("1YXqPBVc3gHQjpXd1RrnBhHaxecv-gUjI", "gpt_model.pth")
 
