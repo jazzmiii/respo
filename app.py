@@ -21,7 +21,8 @@ def download_from_drive(file_id, destination):
         else:
             raise Exception("Failed to download model from Google Drive.")
             
-PORT=7001
+import os
+PORT = int(os.environ.get("PORT", 7001))
 url = f"https://drive.google.com/uc?id=1RCZShB5ohy1HdU-mogcP16TbeVv9txpY"
 df = pd.read_csv(url)
 
@@ -178,4 +179,4 @@ def query_model():
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=7001)
+    app.run(host="0.0.0.0", port=PORT)
